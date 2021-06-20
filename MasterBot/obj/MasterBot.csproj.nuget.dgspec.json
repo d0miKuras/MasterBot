@@ -38,6 +38,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Discord.Addons.Hosting": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
+            "Discord.Net": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
             "Discord.Net.Commands": {
               "target": "Package",
               "version": "[2.4.0, )"
@@ -52,11 +60,19 @@
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
-              "version": "[6.0.0-preview.5.21301.5, )"
+              "version": "[5.0.0, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
-              "version": "[6.0.0-preview.5.21301.5, )"
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             },
             "NetEscapades.Configuration.Yaml": {
               "target": "Package",

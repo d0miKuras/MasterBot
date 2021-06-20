@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Threading;
 using System;
 using Discord.WebSocket;
 using System.Collections.Generic;
@@ -5,53 +7,52 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Discord.Commands;
 using System.Threading.Tasks;
+using Discord.Addons.Hosting;
+using Discord;
 
 namespace MasterBot.Services
 {
-    public class CommandHandler
+    public class CommandHandler : InitializedService
     {
         public static IServiceProvider _provider;
-        public static DiscordSocketClient _discord;
+        public static DiscordSocketClient _client;
         public static CommandService _commands;
-        public static IConfigurationRoot _config;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfigurationRoot config, IServiceProvider provider)
+        public static IConfiguration _config;
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider)
         {
             _provider = provider;
-            _discord = discord;
+            _client = discord;
             _commands = commands;
             _config = config;
 
-            _discord.Ready += OnReady;
-            _discord.MessageReceived += OnMessageReceived;
         }
 
+        public override async Task InitializeAsync(CancellationToken cancellationToken)
+        {
+            _client.MessageReceived += OnMessageReceived;
+            _commands.CommandExecuted += OnCommandExecuted;
+
+            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
+
+        }
         private async Task OnMessageReceived(SocketMessage arg)
         {
-            var msg = arg as SocketUserMessage;
-            if(msg.Author.IsBot) return; // does nothing if the author is bot
+        
+            if (!(arg is SocketUserMessage message)) return;
+            if (message.Source != MessageSource.User) return;
 
-            var context = new SocketCommandContext(_discord, msg);
+            var argPos = 0;
+            if (!message.HasStringPrefix(_config["prefix"], ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
 
-            int pos = 0;
-            if(msg.HasStringPrefix(_config["prefix"], ref pos) || msg.HasMentionPrefix(_discord.CurrentUser, ref pos)) // ensures the message contains the prefix or hte bot is tagged
-            {
-                var result = await _commands.ExecuteAsync(context, pos, _provider); // sends context, pos and provider to commands
-
-                if(!result.IsSuccess)
-                {
-                    var reason = result.Error;
-
-                    await context.Channel.SendMessageAsync($"The following error has occurred:\n{reason}"); // posts the error to the chat
-                    Console.WriteLine(reason); // logs error to console, need to expand it
-                }
-            }
+            var context = new SocketCommandContext(_client, message);
+            await _commands.ExecuteAsync(context, argPos, _provider);
+        
 
         }
 
-        private Task OnReady()
+        private async Task OnCommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
-            Console.WriteLine($"Connected as {_discord.CurrentUser.Username}#{_discord.CurrentUser.Discriminator}");
-            return Task.CompletedTask;
-        }
+            if (command.IsSpecified && !result.IsSuccess) await context.Channel.SendMessageAsync($"Error: {result}");
+        } // test
     }
 }
