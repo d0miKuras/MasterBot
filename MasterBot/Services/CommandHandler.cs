@@ -14,10 +14,10 @@ namespace MasterBot.Services
 {
     public class CommandHandler : InitializedService
     {
-        public static IServiceProvider _provider;
-        public static DiscordSocketClient _client;
-        public static CommandService _commands;
-        public static IConfiguration _config;
+        private readonly IServiceProvider _provider;
+        private readonly DiscordSocketClient _client;
+        private readonly CommandService _commands;
+        private readonly IConfiguration _config;
         public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider)
         {
             _provider = provider;
@@ -53,6 +53,6 @@ namespace MasterBot.Services
         private async Task OnCommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {
             if (command.IsSpecified && !result.IsSuccess) await context.Channel.SendMessageAsync($"Error: {result}");
-        } // test
+        }
     }
 }
