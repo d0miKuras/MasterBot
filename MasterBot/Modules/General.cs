@@ -5,15 +5,20 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
 
 namespace MasterBot.Modules
 {
     public class General : ModuleBase
     {
+        private readonly ILogger<General> _logger;
+        public General(ILogger<General> logger) => _logger = logger;
+
         [Command("ping")]
         public async Task Ping()
         {
             await Context.Channel.SendMessageAsync("Pong!");
+            _logger.LogInformation($"{Context.User} executed the ping command!");
         }
 
         [Command("info")]
