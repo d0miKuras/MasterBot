@@ -23,7 +23,7 @@ namespace MasterBot.Modules
             user ??= (SocketGuildUser)Context.User;
             var builder = new EmbedBuilder()
                 .WithThumbnailUrl(user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl())
-                .WithDescription("In this message you can see information about yourself!")
+                .WithDescription($"In this message you can see information about {user}!")
                 .WithColor(new Color(new Random().Next(0, 255), new Random().Next(0, 255), new Random().Next(0, 255)))
                 .AddField("User ID", Context.User.Id, true)
                 .AddField("Discriminator", user.Discriminator, true)
@@ -36,17 +36,6 @@ namespace MasterBot.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        [Command("purge")]
-        [RequireUserPermission(GuildPermission.ManageMessages)]
-        public async Task Purge(int amount) // DELETES amount MESSAGES IF PERMISISONS ARE RIGHT
-        {
-            var messages = await Context.Channel.GetMessagesAsync(amount + 1).FlattenAsync(); // amount + 1 also removes the message that called for purge
-            await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
-
-            var message = await Context.Channel.SendMessageAsync($"{messages.Count()} messages deleted successfully!");
-            await Task.Delay(2500); // wait 2.5 seconds
-            await message.DeleteAsync();
-        }
 
         [Command("server")]
         public async Task Server() // Displays information about the server
