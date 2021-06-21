@@ -7,17 +7,18 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Infrastructure;
+using MasterBot.Utilities;
 
 namespace MasterBot.Modules
 {
     public class General : ModuleBase
     {
         private readonly ILogger<General> _logger;
-        private readonly Servers _servers;
-        public General(ILogger<General> logger, Servers servers) 
+        private readonly RanksHelper _ranksHelper;
+        public General(ILogger<General> logger, RanksHelper ranksHelper) 
         {
             _logger = logger;
-            _servers = servers;
+            _ranksHelper = ranksHelper;
         }
 
         [Command("ping")]
@@ -64,25 +65,49 @@ namespace MasterBot.Modules
             await Context.Channel.SendMessageAsync(null, false, embed);
         }
 
-        [Command("prefix")]
-        [RequireUserPermission(Discord.GuildPermission.Administrator)]
-        public async Task Prefix(string prefix = null)
+        [Command("rank")] // adds or removes given rank
+        [RequireBotPermission(GuildPermission.ManageRoles)]
+        public async Task Rank([Remainder]string identifier) // user can use either roleId or roleName
         {
-            if(prefix == null)
+            await Context.Channel.TriggerTypingAsync(); // adds typing indicator for the user to know that the bo is working on the solution
+            var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
+
+            IRole role; // uninitialized
+
+            if(ulong.TryParse(identifier, out ulong roleId)) // tries to parse identifier as ulong, if succeeds roleId is the result
             {
-                var guildPrefix = await _servers.GetGuildPrefix(Context.Guild.Id) ?? "!"; // gets the prefix from the database or default prefix
-                await ReplyAsync($"The current prefix of this bot is `{guildPrefix}`.");
-                return;
+                var roleById = Context.Guild.Roles.FirstOrDefault(x => x.Id == roleId); // finds the role by id
+                if(roleById == null)
+                {
+                    await ReplyAsync("This role does not exist!");
+                    return;
+                }
+                role = roleById;
+            }
+            else
+            {
+                var roleByName = Context.Guild.Roles.FirstOrDefault(x => string.Equals(x.Name, identifier, StringComparison.CurrentCultureIgnoreCase)); // finds role by name
+                if(roleByName == null)
+                {
+                    await ReplyAsync("This role does not exist!");
+                    return;
+                }
+                role = roleByName;
             }
 
-            if(prefix.Length > 8)
+            if(ranks.Any(x => x.Id != role.Id))
             {
-                await ReplyAsync("The length of the new prefix is too long!");
+                await ReplyAsync("This rank does not exist!");
                 return;
             }
-
-            await _servers.ModifyGuildPrefix(Context.Guild.Id, prefix);
-            await ReplyAsync($"The prefix has been adjusted to `{prefix}`.");
+            if((Context.User as SocketGuildUser).Roles.Any(x => x.Id == role.Id)) // if the user already has this role, removes it
+            {
+                await (Context.User as SocketGuildUser).RemoveRoleAsync(role);
+                await ReplyAsync($"Successfully removed the role {role.Mention} from you.");
+                return;
+            }
+            await (Context.User as SocketGuildUser).AddRoleAsync(role); // if the user doesnt have it added yet, gives it 
+            await ReplyAsync($"Successfully added role {role.Mention} to you.");
         }
     }
 }

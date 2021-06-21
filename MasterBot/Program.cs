@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MasterBot.Services;
 using Infrastructure;
+using MasterBot.Utilities;
 
 namespace MasterBot
 {
@@ -55,7 +56,11 @@ namespace MasterBot
                 {
                     services.AddHostedService<CommandHandler>()
                     .AddDbContext<MasterBotContext>()
-                    .AddSingleton<Servers>();
+                    .AddSingleton<Servers>()
+                    .AddSingleton<Ranks>()
+                    .AddSingleton<AutoRoles>()
+                    .AddSingleton<RanksHelper>()
+                    .AddSingleton<AutoRolesHelper>();
                 })
                 .UseConsoleLifetime();
 
