@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MasterBot.Services;
+using Infrastructure;
 
 namespace MasterBot
 {
@@ -52,7 +53,9 @@ namespace MasterBot
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddHostedService<CommandHandler>();
+                    services.AddHostedService<CommandHandler>()
+                    .AddDbContext<MasterBotContext>()
+                    .AddSingleton<Servers>();
                 })
                 .UseConsoleLifetime();
 

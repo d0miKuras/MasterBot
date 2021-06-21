@@ -6,13 +6,19 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
+using Infrastructure;
 
 namespace MasterBot.Modules
 {
     public class General : ModuleBase
     {
         private readonly ILogger<General> _logger;
-        public General(ILogger<General> logger) => _logger = logger;
+        private readonly Servers _servers;
+        public General(ILogger<General> logger, Servers servers) 
+        {
+            _logger = logger;
+            _servers = servers;
+        }
 
         [Command("ping")]
         public async Task Ping()
@@ -56,6 +62,27 @@ namespace MasterBot.Modules
 
             var embed = builder.Build();
             await Context.Channel.SendMessageAsync(null, false, embed);
+        }
+
+        [Command("prefix")]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        public async Task Prefix(string prefix = null)
+        {
+            if(prefix == null)
+            {
+                var guildPrefix = await _servers.GetGuildPrefix(Context.Guild.Id) ?? "!"; // gets the prefix from the database or default prefix
+                await ReplyAsync($"The current prefix of this bot is `{guildPrefix}`.");
+                return;
+            }
+
+            if(prefix.Length > 8)
+            {
+                await ReplyAsync("The length of the new prefix is too long!");
+                return;
+            }
+
+            await _servers.ModifyGuildPrefix(Context.Guild.Id, prefix);
+            await ReplyAsync($"The prefix has been adjusted to `{prefix}`.");
         }
     }
 }

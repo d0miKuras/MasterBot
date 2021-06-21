@@ -10,6 +10,7 @@ using Discord.Commands;
 using System.Threading.Tasks;
 using Discord.Addons.Hosting;
 using Discord;
+using Infrastructure;
 
 namespace MasterBot.Services
 {
@@ -19,13 +20,14 @@ namespace MasterBot.Services
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
         private readonly IConfiguration _config;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider)
+        private readonly Servers _servers;
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers)
         {
             _provider = provider;
             _client = discord;
             _commands = commands;
             _config = config;
-
+            _servers = servers;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
@@ -66,7 +68,8 @@ namespace MasterBot.Services
             if (message.Source != MessageSource.User) return;
 
             var argPos = 0;
-            if (!message.HasStringPrefix(_config["prefix"], ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
+            var prefix = await _servers.GetGuildPrefix((message.Channel as SocketGuildChannel).Guild.Id) ?? "!"; // fetches the prefix from the database or uses default prefix
+            if (!message.HasStringPrefix(prefix, ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
 
             var context = new SocketCommandContext(_client, message);
             await _commands.ExecuteAsync(context, argPos, _provider);

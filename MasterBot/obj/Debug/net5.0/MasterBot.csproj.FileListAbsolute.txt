@@ -17,11 +17,9 @@
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.FileProviders.Physical.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.FileSystemGlobbing.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.Primitives.dll
-/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/NetEscapades.Configuration.Yaml.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Newtonsoft.Json.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/System.Interactive.Async.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/System.Linq.Async.dll
-/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/YamlDotNet.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/obj/Debug/net5.0/MasterBot.csprojAssemblyReference.cache
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/obj/Debug/net5.0/MasterBot.GeneratedMSBuildEditorConfig.editorconfig
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/obj/Debug/net5.0/MasterBot.AssemblyInfoInputs.cache
@@ -52,3 +50,14 @@
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/System.Diagnostics.EventLog.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/runtimes/win/lib/netcoreapp2.0/System.Diagnostics.EventLog.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/appsettings.json
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.EntityFrameworkCore.Relational.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.Caching.Abstractions.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Microsoft.Extensions.Caching.Memory.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/MySqlConnector.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Pomelo.EntityFrameworkCore.MySql.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/System.Diagnostics.DiagnosticSource.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Infrastructure.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Infrastructure.pdb
