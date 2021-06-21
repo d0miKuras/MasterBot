@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Discord.Addons.Hosting;
 using Discord;
 using Infrastructure;
+using MasterBot.Utilities;
 
 namespace MasterBot.Services
 {
@@ -21,23 +22,37 @@ namespace MasterBot.Services
         private readonly CommandService _commands;
         private readonly IConfiguration _config;
         private readonly Servers _servers;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers)
+        private readonly AutoRolesHelper _autoRolesHelper;
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, AutoRolesHelper autoRolesHelper)
         {
             _provider = provider;
             _client = discord;
             _commands = commands;
             _config = config;
             _servers = servers;
+            _autoRolesHelper = autoRolesHelper;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
+            _client.UserJoined += OnUserJoined;
+
 
             _commands.CommandExecuted += OnCommandExecuted;
 
+
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
 
+        }
+
+        private async Task OnUserJoined(SocketGuildUser arg)
+        {
+            var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);
+            if(roles.Count < 1)
+                return;
+            
+            await arg.AddRolesAsync(roles);
         }
 
         private async Task OnMessageReceived(SocketMessage arg)
