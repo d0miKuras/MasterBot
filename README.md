@@ -4,7 +4,7 @@ This bot includes many features that could be used by both big gaming communitie
 **Master Bot is currently in development, see the current process below.**
 
 ## List of features (will be expanded as I come up with ideas)
-- [ ] Auto-roles & ranks
+- [x] Auto-roles & ranks (still need to fix Exception: Bad IL range)
 - [ ] Moderation:
     - [ ] Banned words (deleting the message, giving a warning and banning the user upon going over the warning limit)
     - [x] Purging (deleting) a set amount of messages 
