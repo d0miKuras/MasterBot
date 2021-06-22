@@ -14,7 +14,7 @@ namespace MasterBot.Modules
     {
         [Command("meme")]
         [Alias("reddit")]
-        public async Task Meme(string subreddit = null) // gets a random meme from reddit api and transforms is into an embed
+        public async Task Meme(string subreddit = null) // gets a random meme from reddit api and transforms it into an embed
         {
             var client = new HttpClient();
             var result = await client.GetStringAsync($"https://reddit.com/r/{subreddit ?? "dankmemes"}/random.json?limit=1"); // gets string form reddit api
