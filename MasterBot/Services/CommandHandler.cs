@@ -12,6 +12,7 @@ using Discord.Addons.Hosting;
 using Discord;
 using Infrastructure;
 using MasterBot.Utilities;
+using Victoria;
 
 namespace MasterBot.Services
 {
@@ -23,7 +24,8 @@ namespace MasterBot.Services
         private readonly IConfiguration _config;
         private readonly Servers _servers;
         private readonly AutoRolesHelper _autoRolesHelper;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, AutoRolesHelper autoRolesHelper)
+        private readonly LavaNode _lavaNode;
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
         {
             _provider = provider;
             _client = discord;
@@ -31,13 +33,14 @@ namespace MasterBot.Services
             _config = config;
             _servers = servers;
             _autoRolesHelper = autoRolesHelper;
+            _lavaNode = lavaNode;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
             _client.UserJoined += OnUserJoined;
-
+            _client.Ready += OnReadyAsync;
 
             _commands.CommandExecuted += OnCommandExecuted;
 
@@ -45,7 +48,15 @@ namespace MasterBot.Services
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _provider);
 
         }
-
+        
+        private async Task OnReadyAsync() 
+        {
+		if (!_lavaNode.IsConnected) {
+			await _lavaNode.ConnectAsync();
+		}
+		
+		
+	}
         private async Task OnUserJoined(SocketGuildUser arg)
         {
             var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);

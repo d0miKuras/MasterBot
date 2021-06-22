@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using MasterBot.Services;
 using Infrastructure;
 using MasterBot.Utilities;
+using Victoria;
 
 namespace MasterBot
 {
@@ -56,6 +57,10 @@ namespace MasterBot
                 {
                     services.AddHostedService<CommandHandler>()
                     .AddDbContext<MasterBotContext>()
+                    .AddLavaNode(x =>
+                    {
+                        x.SelfDeaf = true;
+                    })
                     .AddSingleton<Servers>()
                     .AddSingleton<Ranks>()
                     .AddSingleton<AutoRoles>()

@@ -47,3 +47,17 @@ This bot includes many features that could be used by both big gaming communitie
 * ### Moderation commands: (Only people who can manage messages can use these):
     * #### purge:
     Deletes a specified number of messages from the channel it was called in. Use: "!purge 50" will remove 50 messages.
+
+* ### Music commands: (Anyone can call these)
+    * #### join
+    Makes the bot join the voice channel that the user is connected to.
+    * #### disconnect
+    Stops the music from playing and disconnects the bot from the voice channel.
+    * #### play
+    Searches YouTube for the specified keywords and plays the top result. If there is a track already playing, adds it to the queue.
+    * #### skip
+    If the track queue is not empty, skips ot the next track.
+    * #### pause
+    Pauses the current track.
+    * #### resume
+    Resumes the paused track, if there is one.

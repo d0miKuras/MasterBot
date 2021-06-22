@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IFfV7AobxS36pP8hzELlyc+814Pco9Ssneu47KSX2CapON9REGA8TN89evJyJpbFvPfFpco7OGdazW1wZe9F/w==",
+  "dgSpecHash": "hh7UpD9NvHVdxCu3mh5nAtoDtAGXZdasx+tPVio8KAp9nOWoR66ihjoeafVQaymhguSjPAIiGvXDafe+O+OfDg==",
   "success": true,
   "projectFilePath": "/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/MasterBot.csproj",
   "expectedPackageFiles": [
@@ -54,7 +54,8 @@
     "/Users/d0mi/.nuget/packages/system.interactive.async/4.0.0/system.interactive.async.4.0.0.nupkg.sha512",
     "/Users/d0mi/.nuget/packages/system.linq.async/4.0.0/system.linq.async.4.0.0.nupkg.sha512",
     "/Users/d0mi/.nuget/packages/system.security.accesscontrol/5.0.0/system.security.accesscontrol.5.0.0.nupkg.sha512",
-    "/Users/d0mi/.nuget/packages/system.security.principal.windows/5.0.0/system.security.principal.windows.5.0.0.nupkg.sha512"
+    "/Users/d0mi/.nuget/packages/system.security.principal.windows/5.0.0/system.security.principal.windows.5.0.0.nupkg.sha512",
+    "/Users/d0mi/.nuget/packages/victoria/5.1.11/victoria.5.1.11.nupkg.sha512"
   ],
   "logs": []
 }
