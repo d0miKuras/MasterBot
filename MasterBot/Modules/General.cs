@@ -95,7 +95,7 @@ namespace MasterBot.Modules
                 role = roleByName;
             }
 
-            if(ranks.Any(x => x.Id != role.Id))
+            if(ranks.All(x => x.Id != role.Id))
             {
                 await ReplyAsync("This rank does not exist!");
                 return;
