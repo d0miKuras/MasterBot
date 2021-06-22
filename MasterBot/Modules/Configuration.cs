@@ -88,7 +88,7 @@ namespace MasterBot.Modules
                 await ReplyAsync("That role is higher in hierarchy than the bot!");
                 return;
             }
-            if(ranks.Any(x => x.Id != role.Id))
+            if(ranks.All(x => x.Id != role.Id))
             {
                 await ReplyAsync("This role is not a rank!");
                 return;
@@ -174,7 +174,7 @@ namespace MasterBot.Modules
                 return;
             }
 
-            if(autoRoles.Any(x => x.Id == role.Id))
+            if(autoRoles.All(x => x.Id == role.Id))
             {
                 await ReplyAsync("This role is already an auto role!");
                 return;
@@ -205,7 +205,7 @@ namespace MasterBot.Modules
                 return;
             }
 
-            if(autoRoles.Any(x => x.Id != role.Id))
+            if(autoRoles.All(x => x.Id != role.Id))
             {
                 await ReplyAsync("This role is not an auto role!");
                 return;
