@@ -1,4 +1,5 @@
 # MasterBot
+## **[Add the bot to your server](https://discord.com/api/oauth2/authorize?client_id=855773619174768641&permissions=8&scope=bot)**
 # About the bot
 This bot includes many features that could be used by both big gaming communities and smaller "friends" servers. I began developing this bot mid June 2021.
 **Master Bot is currently in development, see the current process below.**
