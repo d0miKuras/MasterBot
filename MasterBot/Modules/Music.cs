@@ -39,7 +39,7 @@ namespace MasterBot.Modules
         }
 
         [Command("disconnect", RunMode = RunMode.Async)]
-        public async Task Disconenct()
+        public async Task Disconnect()
         {
             var voiceState = Context.User as IVoiceState;
             if(voiceState.VoiceChannel == null)
@@ -50,10 +50,8 @@ namespace MasterBot.Modules
 
             try
             {
-                // await Context.Guild.AudioClient.StopAsync();
-                await _lavaNode.DisconnectAsync();
-                await (Context.User as SocketGuildUser).VoiceChannel.DisconnectAsync();
                 await ReplyAsync($"Disconneted from {voiceState.VoiceChannel.Name}!");
+                await _lavaNode.LeaveAsync(Context.Guild.CurrentUser.VoiceChannel);
             }
             catch(Exception exception)
             {
