@@ -10,10 +10,11 @@ This bot includes many features that could be used by both big gaming communitie
     - [ ] Banned words (deleting the message, giving a warning and banning the user upon going over the warning limit)
     - [x] Purging (deleting) a set amount of messages 
     - [ ] Deleting links
-- [x] LFG
+- [x] **LFG**
 - [ ] Activity Checks
 - [x] Music player
 
+The items in **bold** are not yet on production server but are finished and are waiting to be pushed.
 ## List of commands so far and their description:
 * ### Configuration commands: (Only administrators can use these)
     * #### prefix:
