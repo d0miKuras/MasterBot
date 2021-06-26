@@ -10,8 +10,9 @@ This bot includes many features that could be used by both big gaming communitie
     - [ ] Banned words (deleting the message, giving a warning and banning the user upon going over the warning limit)
     - [x] Purging (deleting) a set amount of messages 
     - [ ] Deleting links
-- [ ] LFG
+- [x] LFG
 - [ ] Activity Checks
+- [x] Music player
 
 ## List of commands so far and their description:
 * ### Configuration commands: (Only administrators can use these)
@@ -62,3 +63,12 @@ This bot includes many features that could be used by both big gaming communitie
     Pauses the current track.
     * #### resume
     Resumes the paused track, if there is one.
+
+* ### LFG Commands: (Anyone can use these)
+    * #### lfg-register:
+    Registers the user. The user has to provide some information, namely: GameName, Rank and Region. The format of the command is: !lfg-register GameName Rank Region.
+
+    * #### lfg:
+    Adds user to the LFG database, mentions all the users on the server who fit the rating requirement set by the user and are also looking for game. Format:
+        - !lfg Game(could use short name or full name) Mode (optional if Mode is not ranked)LowerRatingBoundary (optional if Mode is not ranked)UpperRatingBoundary
+        - !lfg Game Mode remove ----- removes the user from the lfg database for that mode. 

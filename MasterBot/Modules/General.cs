@@ -69,7 +69,7 @@ namespace MasterBot.Modules
         [RequireBotPermission(GuildPermission.ManageRoles)]
         public async Task Rank([Remainder]string identifier) // user can use either roleId or roleName
         {
-            await Context.Channel.TriggerTypingAsync(); // adds typing indicator for the user to know that the bo is working on the solution
+            await Context.Channel.TriggerTypingAsync(); // adds typing indicator for the user to know that the bot is working on the solution
             var ranks = await _ranksHelper.GetRanksAsync(Context.Guild);
 
             IRole role; // uninitialized

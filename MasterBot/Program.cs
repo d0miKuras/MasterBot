@@ -64,8 +64,14 @@ namespace MasterBot
                     .AddSingleton<Servers>()
                     .AddSingleton<Ranks>()
                     .AddSingleton<AutoRoles>()
+                    .AddSingleton<LFGs>()
+                    .AddSingleton<Games>()
+                    .AddSingleton<Players>()
                     .AddSingleton<RanksHelper>()
-                    .AddSingleton<AutoRolesHelper>();
+                    .AddSingleton<AutoRolesHelper>()
+                    .AddSingleton<PlayerHelper>()
+                    .AddSingleton<LFGHelper>()
+                    .AddSingleton<GameHelper>();
                 })
                 .UseConsoleLifetime();
 

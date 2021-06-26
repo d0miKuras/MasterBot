@@ -51,12 +51,13 @@ namespace MasterBot.Services
         
         private async Task OnReadyAsync() 
         {
-		if (!_lavaNode.IsConnected) {
-			await _lavaNode.ConnectAsync();
-		}
+		    if (!_lavaNode.IsConnected)
+            {
+			    await _lavaNode.ConnectAsync();
+		    }
+        }
 		
 		
-	}
         private async Task OnUserJoined(SocketGuildUser arg)
         {
             var roles = await _autoRolesHelper.GetAutoRolesAsync(arg.Guild);

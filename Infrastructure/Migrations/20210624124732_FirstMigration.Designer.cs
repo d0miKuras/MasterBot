@@ -3,14 +3,16 @@ using System;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MasterBotContext))]
-    partial class MasterBotContextModelSnapshot : ModelSnapshot
+    [Migration("20210624124732_FirstMigration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,9 +65,6 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("LowerRatingBound")
-                        .HasColumnType("int");
-
                     b.Property<int>("Mode")
                         .HasColumnType("int");
 
@@ -74,9 +73,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<ulong>("ServerId")
                         .HasColumnType("bigint unsigned");
-
-                    b.Property<int>("UpperRatingBound")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -98,8 +94,8 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("GameId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rank")
-                        .HasColumnType("int");
+                    b.Property<string>("Rank")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Region")
                         .HasColumnType("int");
