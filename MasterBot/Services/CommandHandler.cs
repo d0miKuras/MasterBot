@@ -79,9 +79,8 @@ namespace MasterBot.Services
 
             var context = new SocketCommandContext(_client, message);
             await _commands.ExecuteAsync(context, argPos, _provider);
-        
-
         }
+
 
         private async Task OnCommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)
         {

@@ -13,6 +13,7 @@ using MasterBot.Services;
 using Infrastructure;
 using MasterBot.Utilities;
 using Victoria;
+using Discord.Addons.Interactive;
 
 namespace MasterBot
 {
@@ -61,6 +62,7 @@ namespace MasterBot
                     {
                         x.SelfDeaf = true;
                     })
+                    .AddSingleton<InteractiveService>()
                     .AddSingleton<Servers>()
                     .AddSingleton<Ranks>()
                     .AddSingleton<AutoRoles>()

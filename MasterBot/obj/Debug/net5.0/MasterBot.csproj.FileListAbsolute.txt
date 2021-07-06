@@ -62,3 +62,4 @@
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Infrastructure.dll
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Infrastructure.pdb
 /Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Victoria.dll
+/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/bin/Debug/net5.0/Discord.Addons.Interactive.dll

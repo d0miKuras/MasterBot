@@ -1,10 +1,7 @@
-using System.Linq;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 

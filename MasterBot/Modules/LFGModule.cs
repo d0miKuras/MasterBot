@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using Infrastructure;
-using Discord.WebSocket;
 using Discord.Commands;
 using MasterBot.Utilities;
 using Microsoft.Extensions.Logging;
@@ -30,20 +29,20 @@ namespace MasterBot.Modules
             _lfgs = lfgs;
         }
 
-        [Command("addgame", RunMode = RunMode.Async)]
-        public async Task AddGame([Remainder]string cmd) // adds a game to the database. Format: !addgame Name Shortname IntegerRankSystem(true or false), TODO:REMOVE LATER 
-        {
-            if (string.IsNullOrWhiteSpace(cmd)) 
-            {
-                await ReplyAsync("Please provide game details.");
-                return;
-            }
+        // [Command("addgame", RunMode = RunMode.Async)]
+        // public async Task AddGame([Remainder]string cmd) // adds a game to the database. Format: !addgame Name Shortname IntegerRankSystem(true or false), TODO:REMOVE LATER 
+        // {
+        //     if (string.IsNullOrWhiteSpace(cmd)) 
+        //     {
+        //         await ReplyAsync("Please provide game details.");
+        //         return;
+        //     }
 
-            var queries = cmd.Split(' ');
-            bool.TryParse(queries[2], out bool intRanked);
-            await _games.AddGameAsync(queries[0], queries[1], intRanked);
+        //     var queries = cmd.Split(' ');
+        //     bool.TryParse(queries[2], out bool intRanked);
+        //     await _games.AddGameAsync(queries[0], queries[1], intRanked);
             
-        }
+        // }
 
         /// <summary>
         /// Registers the caller to the lfg database. Format: !lfg-register GameName Rank Region
@@ -106,7 +105,8 @@ namespace MasterBot.Modules
         /// <returns></returns>            
         [Command("lfg", RunMode = RunMode.Async)]
         // TODO: remove unnecessary lists (fitting users might be replacable by a string += user.userId))
-        // TODO: Only mention users whose lfg rating requirement include the caller
+        // TODO: If the game has integerRankedSystem, don't cast it to Rating, just compare values
+        // TODO: Add filtering by region
         public async Task AddToLfg([Remainder]string cmd) 
         {
             await Context.Channel.TriggerTypingAsync(); // adds typing indicator for the user to know that the bo is working on the solution

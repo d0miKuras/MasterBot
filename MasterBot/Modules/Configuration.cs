@@ -1,10 +1,8 @@
 using System.Linq;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using Infrastructure;
-using Discord.WebSocket;
 using Discord.Commands;
 using MasterBot.Utilities;
 
@@ -27,6 +25,17 @@ namespace MasterBot.Modules
             _autoRoles = autorolls;
         }
 
+
+        [Command("adminchannel", RunMode = RunMode.Async)]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        public async Task AdminChannel(IGuildChannel channel = null)
+        {
+            if(channel == null)
+                channel = Context.Channel as IGuildChannel;
+            await _servers.ModifyAdminChannel(Context.Guild.Id, channel.Id);
+            await ReplyAsync($"Admin Channel set to {channel}");
+        }
+        
         [Command("prefix", RunMode = RunMode.Async)]
         [RequireUserPermission(Discord.GuildPermission.Administrator)]
         public async Task Prefix(string prefix = null)

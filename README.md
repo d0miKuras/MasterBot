@@ -11,7 +11,7 @@ This bot includes many features that could be used by both big gaming communitie
     - [x] Purging (deleting) a set amount of messages 
     - [ ] Deleting links
 - [x] **LFG**
-- [ ] Activity Checks
+- [x] Activity Checks
 - [x] Music player
 
 The items in **bold** are not yet on production server but are finished and are waiting to be pushed.
@@ -32,6 +32,8 @@ The items in **bold** are not yet on production server but are finished and are 
     Deletes the specified autorole from the server. The role itself is not deleted but it is no longer given to users on server join. E.g. "!delete-autorole role"  will no longer add 'role' to users who join the server after it is called.
     * #### add-autorole:
     Adds the specified role to the list of autoroles. After the role is added, it is given to users who join the server. E.g. '!add-autorole role" will add 'role' to anyone who joins the server after this command is called.
+    * #### adminchannel:
+    Sets the channel as the admin channel. It has to be set up for activity-check features to work. E.g. '!adminchannel' sets the channel this is used in as the admin channel; '!adminchannel channel' sets 'channel' as the admin channel.
 
 * ### General commands: (Anyone can call these)
     * #### info:
@@ -73,3 +75,7 @@ The items in **bold** are not yet on production server but are finished and are 
     Adds user to the LFG database, mentions all the users on the server who fit the rating requirement set by the user and are also looking for game. Format:
         - !lfg Game(could use short name or full name) Mode (optional if Mode is not ranked)LowerRatingBoundary (optional if Mode is not ranked)UpperRatingBoundary
         - !lfg Game Mode remove ----- removes the user from the lfg database for that mode. 
+
+* ### Activity checks: (Only users with Kick permissions can use these)
+    * #### activity-check:
+    Posts the message with users who have not messaged in `activity period`. Sends them a message upon reacting to which the message that has been posted is updated. The users who reacted to the DM are given a `grace period`, the end of which is noted in the modified message. As of now there are no auto-kick features. 

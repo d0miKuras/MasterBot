@@ -1,12 +1,10 @@
 using System.Linq;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
-using Infrastructure;
 using MasterBot.Utilities;
 
 namespace MasterBot.Modules

@@ -140,6 +140,15 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint unsigned");
 
+                    b.Property<ulong>("ActivityMessage")
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<ulong>("AdminChannel")
+                        .HasColumnType("bigint unsigned");
+
+                    b.Property<ulong>("LogChannel")
+                        .HasColumnType("bigint unsigned");
+
                     b.Property<string>("Prefix")
                         .HasColumnType("longtext");
 

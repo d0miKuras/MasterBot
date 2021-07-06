@@ -16,14 +16,20 @@ namespace Infrastructure
         public DbSet<LFG> LFGs { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder options) 
-            => options.UseMySql("server=localhost;user=root;database=masterbot;port=3306;Connect Timeout=5;", new MariaDbServerVersion(new Version(10,4,19))); // new Version(8, 0, 21) https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/pull/1233
-    }
+            => options.UseMySql("server=localhost;user=root;database=masterbot;port=3306;Connect Timeout=5;", 
+            // new MySqlServerVersion(new Version(8, 0, 25))); // new Version(8, 0, 21) https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/pull/1233
+            new MariaDbServerVersion(new Version(10, 4, 19)));
+    }   
     public class Server
     {
         public ulong Id { get; set; }
         public string Prefix { get; set; }
 
         public List<LFG> LFGs { get; set; }
+        public ulong AdminChannel { get; set; }
+        public ulong LogChannel { get; set; }
+
+        public ulong ActivityMessage { get; set; }
     }
 
     public class Rank
@@ -96,10 +102,95 @@ namespace Infrastructure
     public enum Rating
     {
         None,
+
+        Iron,
+        Copper,
+
+        //sc2
+        Bronze,
+        Silver,
+        Gold,
+        Platinum,
+        Diamond,
+        
+        // COD:
         Competitor,
         Advanced,
         Expert,
         Elite,
-        Master
+        Master,
+
+        // DOTA2:
+        Herald1,
+        Herald2,
+        Herald3,
+        Herald4,
+        Herald5,
+        
+        Guardian1,
+        Guardian2,
+        Guardian3,
+        Guardian4,
+        Guardian5,
+
+        Crusader1,
+        Crusader2,
+        Crusader3,
+        Crusader4,
+        Crusader5,
+        Archon1,
+        Archon2,
+        Archon3,
+        Archon4,
+        Archon5,
+
+        Legend1,
+        Legend2,
+        Legend3,
+        Legend4,
+        Legend5,
+
+        Ancient1,
+        Ancient2,
+        Ancient3,
+        Ancient4,
+        Ancient5,
+
+        Divine1,
+        Divine2,
+        Divine3,
+        Divine4,
+        Divine5,
+
+        // CSGO:
+        Silver1,
+        Silver2,
+        Silver3,
+        Silver4,
+        SilverElite,
+        SilverEliteMaster,
+        GoldNova1,
+        GoldNova2,
+        GoldNova3,
+        GoldNovaMaster,
+        MasterGuardian1,
+        MasterGuardian2,
+        MasterGuardianElite,
+        DistinguishedMasterGuardian,
+        LegendaryEagle,
+        LegendaryEagleMaster,
+        SupremeMasterFirstClass,
+        GlobalElite,
+
+        GrandMaster,
+        Challenger,
+        Immortal,
+        Radiant,
+        Champions,
+        Onyx,
+        Champion
+
+
+
     }
 }
