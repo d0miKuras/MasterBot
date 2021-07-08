@@ -25,6 +25,27 @@ namespace MasterBot.Modules
             _autoRoles = autorolls;
         }
 
+
+        [Command("config", RunMode = RunMode.Async)]
+        public async Task Config()
+        {
+            var prefix = await _servers.GetGuildPrefix(Context.Guild.Id);
+            // var builder = new EmbedBuilder()
+            //     .WithDescription("Current server config.")
+            //     .AddField($"Prefix: ", prefix, true);
+            
+            // var embed = builder.Build();
+            // await Context.Channel.SendMessageAsync(null, false, embed);
+
+            var adminChannel = Context.Guild.GetTextChannel(await _servers.GetAdminChannel(Context.Guild.Id));
+            var loggingOn = await _servers.GetLoggingOn(Context.Guild.Id);
+            var logChannel = Context.Guild.GetTextChannel(await _servers.GetLogChannel(Context.Guild.Id));
+
+            await ReplyAsync($"Current server config:\nPrefix:\t`{prefix??"`!`"}`\nAdmin Channel:\t"+
+                            $"{adminChannel.Mention}\nLoggingOn:\t{loggingOn}\nLog Channel:\t{logChannel.Mention}");  
+
+        }
+
         [Command("logging", RunMode = RunMode.Async)]
         [RequireUserPermission(Discord.GuildPermission.Administrator)]
         public async Task Logging(bool loggingOn)
