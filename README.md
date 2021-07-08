@@ -35,6 +35,11 @@ The items in **bold** are not yet on production server but are finished and are 
     * #### adminchannel:
     Sets the channel as the admin channel. It has to be set up for activity-check features to work. E.g. '!adminchannel' sets the channel this is used in as the admin channel; '!adminchannel channel' sets 'channel' as the admin channel.
 
+    * #### logging:
+    Sets the logging option to the given value. Example: '!logging true' sets logging to true. Now will log all the bot activity to LogChannel.
+    * #### logchannel:
+    Sets the log channel as the logging channel. If command is used while logging is false, sets it to true automatically. Example: '!logchannel #log-channel' will set #log-channel as the default channel. If the channel is not given, then sets the channel the command was issued as the logging channel.  
+
 * ### General commands: (Anyone can call these)
     * #### info:
     Displays the information about the specified user in an embed: user avatar, user ID, discriminator (the numbers after the #), account creation date, server join date, assigned roles. If the user is not specified, displays the information about the caller.

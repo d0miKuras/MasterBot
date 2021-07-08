@@ -49,7 +49,8 @@ namespace MasterBot.Modules
             try
             {
                 var logchannel = await GetLoggingChannelAsITextChannel(Context.Guild.Id);
-                if(logchannel != null)
+                var loggingOn = await _servers.GetLoggingOn(Context.Guild.Id);
+                if(logchannel != null && loggingOn)
                 {
                     await logchannel.SendMessageAsync($"{Context.User.Mention} has started an activity check.");
                 }
@@ -101,7 +102,8 @@ namespace MasterBot.Modules
                 ////////////////////////////////////////////////////////////////////////////
                 
                 var loggingChannel = await GetLoggingChannelAsITextChannel(Context.Guild.Id);
-                if(loggingChannel != null)
+                var loggingOn = await _servers.GetLoggingOn(Context.Guild.Id);
+                if(loggingChannel != null && loggingOn)
                 {
                     await loggingChannel.SendMessageAsync($"{guildUser.Mention} has responded to the activity check, grace period started.");
                 }
