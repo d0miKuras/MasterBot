@@ -63,32 +63,6 @@ namespace Infrastructure
             return await Task.FromResult(adminChannel);
         }
 
-        // public async Task<List<ulong>> GetInactiveMembers(ulong id)
-        // {
-        //     var inactiveMembers = 
-        //         from server in _context.Servers
-        //         where server.Id == id
-        //         select server.InactiveMembers;
-        //     // var inactiveMembers = _context.Servers
-        //     //     .Where(x => x.Id == id)
-        //     //     .Select(x => x.InactiveMembers);
-        //     // var ret = inactiveMembers as List<ulong>;
-        //     return await Task.FromResult(await inactiveMembers.FirstOrDefaultAsync());
-        // }
-
-        // public async Task ModifyInactiveMembers(ulong id, List<ulong> users)
-        // {
-        //     var server = await _context.Servers
-        //         .FindAsync(id);
-
-        //     if(server == null)
-        //         _context.Add(new Server {Id = id, InactiveMembers = users});
-        //     else
-        //         server.InactiveMembers = users;
-            
-        //     await _context.SaveChangesAsync();
-        // }
-
         public async Task<ulong> GetActivityMessage(ulong id)
         {
             var activityMessage =
@@ -112,5 +86,52 @@ namespace Infrastructure
             
             await _context.SaveChangesAsync();    
         }
+
+        public async Task<bool> GetLoggingOn(ulong id)
+        {
+            var logginOn =
+                from server in _context.Servers
+                where server.Id == id
+                select server.LoggingOn;
+            
+            return await Task.FromResult(await logginOn.FirstOrDefaultAsync());
+        }
+
+        public async Task ModifyLoggingOn(ulong id)
+        {
+            var server = await _context.Servers
+                .FindAsync(id);
+
+            if(server == null)
+                _context.Add(new Server {Id = id, LoggingOn = true});
+            else
+                server.LoggingOn = !server.LoggingOn;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ulong> GetLogChannel(ulong id)
+        {
+            var logChannel = 
+                from server in _context.Servers
+                where server.Id == id
+                select server.LogChannel;
+
+            return await Task.FromResult(await logChannel.FirstOrDefaultAsync());
+        }
+
+        public async Task ModifyLogChannel(ulong id, ulong logChannel)
+        {
+            var server = await _context.Servers
+                .FindAsync(id);
+            
+            if(server == null)
+                _context.Add(new Server{Id = id, LogChannel = logChannel});
+            else
+                server.LogChannel = logChannel;
+            
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

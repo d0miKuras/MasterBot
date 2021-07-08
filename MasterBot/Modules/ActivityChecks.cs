@@ -19,7 +19,10 @@ namespace MasterBot.Modules
         private readonly Servers _servers;
         public IEnumerable<IDMChannel> DMChannels { get; set; }
         public IEnumerable<IGuildUser> InactiveUsers { get; set; }
-        public IEnumerable<IGuildUser> UsersOnGracePeriod { get; set; }        
+        public IEnumerable<IGuildUser> UsersOnGracePeriod { get; set; }   
+
+        // public IGuildChannel LogChannel { get; set; }
+        
         
         // public IMessage InactiveListMessage { get; set; }
         
@@ -29,7 +32,11 @@ namespace MasterBot.Modules
             _client = client;
             _servers = servers;
         }
-
+        public async Task<ITextChannel> GetLoggingChannelAsITextChannel(ulong id)
+        {
+            var logchannel = await Context.Guild.GetTextChannelAsync(await _servers.GetLogChannel(Context.Guild.Id)) as ITextChannel;
+            return await Task.FromResult(logchannel);
+        }
         /// <summary>
         /// Only call this from admin channel
         /// </summary>
@@ -41,6 +48,11 @@ namespace MasterBot.Modules
 
             try
             {
+                var logchannel = await GetLoggingChannelAsITextChannel(Context.Guild.Id);
+                if(logchannel != null)
+                {
+                    await logchannel.SendMessageAsync($"{Context.User.Mention} has started an activity check.");
+                }
                 var message = await GetInactiveMembersAsync();
                 foreach(var user in InactiveUsers)
                 {
@@ -87,6 +99,14 @@ namespace MasterBot.Modules
                 graceList.Add(guildUser);
                 UsersOnGracePeriod = graceList;
                 ////////////////////////////////////////////////////////////////////////////
+                
+                var loggingChannel = await GetLoggingChannelAsITextChannel(Context.Guild.Id);
+                if(loggingChannel != null)
+                {
+                    await loggingChannel.SendMessageAsync($"{guildUser.Mention} has responded to the activity check, grace period started.");
+                }
+
+
                 await UpdateActivityMessage(DateTime.UtcNow + new TimeSpan(7, 0, 0, 0));
 
             }

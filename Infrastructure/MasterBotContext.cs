@@ -30,6 +30,7 @@ namespace Infrastructure
         public ulong LogChannel { get; set; }
 
         public ulong ActivityMessage { get; set; }
+        public bool LoggingOn { get; set; }
     }
 
     public class Rank

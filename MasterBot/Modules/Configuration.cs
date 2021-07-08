@@ -25,9 +25,39 @@ namespace MasterBot.Modules
             _autoRoles = autorolls;
         }
 
+        [Command("logging", RunMode = RunMode.Async)]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        public async Task Logging(bool loggingOn)
+        {
+            if(await _servers.GetLoggingOn(Context.Guild.Id) == loggingOn)
+            {
+                await ReplyAsync($"Logging is already set to {loggingOn}");
+            }
+            else
+            {
+                await _servers.ModifyLoggingOn(Context.Guild.Id);
+                await ReplyAsync($"Logging set to {loggingOn}");
+            }
+        }
+
+        [Command("logchannel", RunMode = RunMode.Async)]
+        [RequireUserPermission(Discord.GuildPermission.Administrator)]
+        public async Task LogChannel(IGuildChannel channel = null)
+        {
+            if(!await _servers.GetLoggingOn(Context.Guild.Id))
+            {
+                await _servers.ModifyLoggingOn(Context.Guild.Id);
+                await ReplyAsync("Turned logging on.");
+            }
+            if(channel == null)
+                channel = Context.Channel as IGuildChannel;
+            await _servers.ModifyLogChannel(Context.Guild.Id, channel.Id);
+            await ReplyAsync($"Log Channel set to {channel}.");
+        }
 
         [Command("adminchannel", RunMode = RunMode.Async)]
         [RequireUserPermission(Discord.GuildPermission.Administrator)]
+
         public async Task AdminChannel(IGuildChannel channel = null)
         {
             if(channel == null)
@@ -35,7 +65,7 @@ namespace MasterBot.Modules
             await _servers.ModifyAdminChannel(Context.Guild.Id, channel.Id);
             await ReplyAsync($"Admin Channel set to {channel}");
         }
-        
+
         [Command("prefix", RunMode = RunMode.Async)]
         [RequireUserPermission(Discord.GuildPermission.Administrator)]
         public async Task Prefix(string prefix = null)
