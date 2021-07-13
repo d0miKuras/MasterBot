@@ -39,6 +39,8 @@ The items in **bold** are not yet on production server but are finished and are 
     Sets the logging option to the given value. Example: '!logging true' sets logging to true. Now will log all the bot activity to LogChannel.
     * #### logchannel:
     Sets the log channel as the logging channel. If command is used while logging is false, sets it to true automatically. Example: '!logchannel #log-channel' will set #log-channel as the default channel. If the channel is not given, then sets the channel the command was issued as the logging channel.  
+    * #### inactivity-period:
+    Sets the inactivity period in days. It's a must-set command. E.g. '!inactivity-period 10' sets the inactivity period to 10 days, so !activity-check will check on people who have not been active 10 days. Value cannot be less than 1 or greater than 14.
 
 * ### General commands: (Anyone can call these)
     * #### info:
