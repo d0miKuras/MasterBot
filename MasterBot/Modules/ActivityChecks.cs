@@ -1,13 +1,10 @@
-using System.Xml.Linq;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
 using Discord;
 using Infrastructure;
 using Discord.Commands;
-using MasterBot.Utilities;
 using Discord.WebSocket;
-using Discord.Addons.Interactive;
 using System.Collections.Generic;
 
 namespace MasterBot.Modules

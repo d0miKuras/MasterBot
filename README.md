@@ -47,8 +47,10 @@ The items in **bold** are not yet on production server but are finished and are 
     * #### server:
     Displays the information about the server: server avatar, server creation date, number of people on the server, number of people online at the moment.
 
-    * ### rank:
+    * #### rank:
     Adds (if the user does not already have the rank) or removes (if the user does have the rank) the specified rank from the callee. The argument could either be the rank name or the rank ID. Tip: ranks & roles should have identical names. Use: "!rank rank" will add 'rank' to the user's ranks.
+    * #### help:
+    Displays a paginator with descirptions of commands.
 
 * ### Fun commands: (Anyone can call these)
     * #### meme (alias reddit):

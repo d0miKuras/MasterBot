@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "fjCwG1LeDHt1OX5AoM72TwoiKMTqkB6amJNTTet+zoxxaWkDQA8MeO1wY6dP7NHFMPwSwpFe37Kp2db5Ea+5yQ==",
+  "dgSpecHash": "zFzWjErfwg9NC4coamKpcfoRZd90dsIlh3HmoWe1AFbcwgpK/8Fbi2nQegXij7tf/ANKCsPdzxeCMKiEEh01jA==",
   "success": true,
   "projectFilePath": "/Users/d0mi/Projects/DiscordBots/MasterBot/MasterBot/MasterBot/MasterBot.csproj",
   "expectedPackageFiles": [
     "/Users/d0mi/.nuget/packages/discord.addons.hosting/4.0.2/discord.addons.hosting.4.0.2.nupkg.sha512",
-    "/Users/d0mi/.nuget/packages/discord.addons.interactive/2.0.0/discord.addons.interactive.2.0.0.nupkg.sha512",
+    "/Users/d0mi/.nuget/packages/discord.interactivityaddon/2.4.1-dev-20210513.1/discord.interactivityaddon.2.4.1-dev-20210513.1.nupkg.sha512",
     "/Users/d0mi/.nuget/packages/discord.net/2.4.0/discord.net.2.4.0.nupkg.sha512",
     "/Users/d0mi/.nuget/packages/discord.net.commands/2.4.0/discord.net.commands.2.4.0.nupkg.sha512",
     "/Users/d0mi/.nuget/packages/discord.net.core/2.4.0/discord.net.core.2.4.0.nupkg.sha512",

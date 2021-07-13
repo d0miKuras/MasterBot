@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Addons.Hosting;
@@ -13,7 +12,7 @@ using MasterBot.Services;
 using Infrastructure;
 using MasterBot.Utilities;
 using Victoria;
-using Discord.Addons.Interactive;
+using Interactivity;
 
 namespace MasterBot
 {
@@ -62,7 +61,7 @@ namespace MasterBot
                     {
                         x.SelfDeaf = true;
                     })
-                    .AddSingleton<InteractiveService>()
+                    .AddSingleton<InteractivityService>()
                     .AddSingleton<Servers>()
                     .AddSingleton<Ranks>()
                     .AddSingleton<AutoRoles>()

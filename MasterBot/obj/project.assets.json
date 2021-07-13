@@ -16,17 +16,17 @@
           "lib/net5.0/Discord.Addons.Hosting.dll": {}
         }
       },
-      "Discord.Addons.Interactive/2.0.0": {
+      "Discord.InteractivityAddon/2.4.1-dev-20210513.1": {
         "type": "package",
         "dependencies": {
-          "Discord.Net.Commands": "2.2.0",
-          "Discord.Net.WebSocket": "2.2.0"
+          "Discord.Net.Core": "2.4.0-dev-20210508.2",
+          "Discord.Net.WebSocket": "2.4.0-dev-20210508.2"
         },
         "compile": {
-          "lib/netstandard2.0/Discord.Addons.Interactive.dll": {}
+          "lib/netstandard2.0/Discord.InteractivityAddon.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Discord.Addons.Interactive.dll": {}
+          "lib/netstandard2.0/Discord.InteractivityAddon.dll": {}
         }
       },
       "Discord.Net/2.4.0": {
@@ -753,16 +753,17 @@
         "lib/netstandard2.1/Discord.Addons.Hosting.xml"
       ]
     },
-    "Discord.Addons.Interactive/2.0.0": {
-      "sha512": "j/bkGeDniPuODOOC+3ZpKvLmoG0z1NHSZrVu6bnaUEYd0tMY4TxaIwl36ue7fK9MXrqQc8VcjcDnvM6JX+V6HA==",
+    "Discord.InteractivityAddon/2.4.1-dev-20210513.1": {
+      "sha512": "48TjnorofhRdHICerRTFlIzfjS1d/yEiQqxGyl8c2Jm1yOxQZF+iRTtXtZoHDcRqWWmvnbvUSHomi7KDbWeJcA==",
       "type": "package",
-      "path": "discord.addons.interactive/2.0.0",
+      "path": "discord.interactivityaddon/2.4.1-dev-20210513.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "discord.addons.interactive.2.0.0.nupkg.sha512",
-        "discord.addons.interactive.nuspec",
-        "lib/netstandard2.0/Discord.Addons.Interactive.dll"
+        "LICENSE",
+        "discord.interactivityaddon.2.4.1-dev-20210513.1.nupkg.sha512",
+        "discord.interactivityaddon.nuspec",
+        "lib/netstandard2.0/Discord.InteractivityAddon.dll"
       ]
     },
     "Discord.Net/2.4.0": {
@@ -1955,7 +1956,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Discord.Addons.Hosting >= 4.0.2",
-      "Discord.Addons.Interactive >= 2.0.0",
+      "Discord.InteractivityAddon >= 2.4.1-dev-20210513.1",
       "Discord.Net >= 2.4.0",
       "Discord.Net.Commands >= 2.4.0",
       "Discord.Net.Core >= 2.4.0",
@@ -2013,9 +2014,9 @@
             "target": "Package",
             "version": "[4.0.2, )"
           },
-          "Discord.Addons.Interactive": {
+          "Discord.InteractivityAddon": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "[2.4.1-dev-20210513.1, )"
           },
           "Discord.Net": {
             "target": "Package",
