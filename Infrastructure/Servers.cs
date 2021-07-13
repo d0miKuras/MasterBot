@@ -133,5 +133,32 @@ namespace Infrastructure
             await _context.SaveChangesAsync();
         }
 
+        public async Task<int> GetInactivityPeriod(ulong id)
+        {
+            var inactivityPeriod =
+                from server in _context.Servers
+                where server.Id == id
+                select server.InactivityPeriod;
+
+            return await Task.FromResult(await inactivityPeriod.FirstOrDefaultAsync());
+        }
+
+        public async Task ModifyInactivityPeriod(ulong id, int period)
+        {
+            var server = await _context.Servers.FindAsync(id);
+            if(period > 14)
+                period = 14;
+
+            if(period < 1)
+                period = 1;
+            if(server == null)
+                _context.Add(new Server{Id = id, InactivityPeriod = period});
+            else
+                server.InactivityPeriod = period;
+            
+            await _context.SaveChangesAsync();
+            
+        }
+
     }
 }

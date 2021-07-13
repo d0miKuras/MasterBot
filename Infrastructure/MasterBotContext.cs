@@ -31,6 +31,7 @@ namespace Infrastructure
 
         public ulong ActivityMessage { get; set; }
         public bool LoggingOn { get; set; }
+        public int InactivityPeriod { get; set; }
     }
 
     public class Rank

@@ -274,6 +274,26 @@ namespace MasterBot.Modules
             await _autoRoles.RemoveAutoRoleAsync(Context.Guild.Id, role.Id);
             await ReplyAsync($"The role {role.Mention} is no longer an auto role!");
         }
+
+        [Command("inactivity-period", RunMode = RunMode.Async)]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task InactivityPeriod(int period)
+        {
+            if(period < 1)
+            {
+                await ReplyAsync("Cannot assign non-positive number of days. The period is set to 1 day.");
+            }
+            else if(period > 14)
+            {
+                await ReplyAsync("Maximum number of days is 14. The period is set to 14.");
+            }
+            else
+            {
+                await ReplyAsync($"Inactivity period set to {period} days.");
+            }
+
+            await _servers.ModifyInactivityPeriod(Context.Guild.Id, period);
+        }
     }
 
 }

@@ -111,7 +111,6 @@ namespace MasterBot.Modules
             }
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -121,6 +120,7 @@ namespace MasterBot.Modules
             var inactiveUsers = new List<IGuildUser>();
             var channels = await Context.Guild.GetTextChannelsAsync();
             var messages = new List<IMessage>();
+            var inactivePeriod = await _servers.GetInactivityPeriod(Context.Guild.Id);
             var adminChannel = await Context.Guild.GetTextChannelAsync(await _servers.GetAdminChannel(Context.Guild.Id));
             // var activityMessageId = _servers.GetActivityMessage(Context.Guild.Id);
             var activityMessageId = await _servers.GetActivityMessage(Context.Guild.Id);
@@ -143,7 +143,7 @@ namespace MasterBot.Modules
             {
                 var messagesByUser = messages.Where(x => x.Author == user); // filters by user
                 // if(messagesByUser.All(x => (x.Timestamp - currentTime).Days > 14))
-                if(!messagesByUser.All(x => (x.Timestamp - currentTime).Seconds > 10) && !user.IsBot)
+                if(!messagesByUser.All(x => (x.Timestamp - currentTime).Days > inactivePeriod) && !user.IsBot)
                     inactiveUsers.Add(user);
             }
             InactiveUsers = inactiveUsers;
