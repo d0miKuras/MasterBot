@@ -50,7 +50,8 @@ namespace MasterBot
                     config = new CommandServiceConfig()
                     {
                         CaseSensitiveCommands = false,
-                        LogLevel = LogSeverity.Verbose
+                        LogLevel = LogSeverity.Verbose,
+                        // DefaultRunMode = RunMode.Async
                     };
                 })
                 .ConfigureServices((context, services) =>
@@ -67,6 +68,7 @@ namespace MasterBot
                     .AddSingleton<AutoRoles>()
                     .AddSingleton<LFGs>()
                     .AddSingleton<Games>()
+                    .AddSingleton<Users>()
                     .AddSingleton<Players>()
                     .AddSingleton<RanksHelper>()
                     .AddSingleton<AutoRolesHelper>()

@@ -23,15 +23,17 @@ namespace MasterBot.Services
         private readonly CommandService _commands;
         private readonly IConfiguration _config;
         private readonly Servers _servers;
+        private readonly Users _users;
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly LavaNode _lavaNode;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, Users users, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
         {
             _provider = provider;
             _client = discord;
             _commands = commands;
             _config = config;
             _servers = servers;
+            _users = users;
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
         }
@@ -39,9 +41,9 @@ namespace MasterBot.Services
         public override async Task InitializeAsync(CancellationToken cancellationToken)
         {
             _client.MessageReceived += OnMessageReceived;
+            // _client.MessageReceived += MessageReceivedUpdateDb;
             _client.UserJoined += OnUserJoined;
             _client.Ready += OnReadyAsync;
-
             _commands.CommandExecuted += OnCommandExecuted;
 
 
@@ -51,7 +53,7 @@ namespace MasterBot.Services
         
         private async Task OnReadyAsync() 
         {
-		    if (!_lavaNode.IsConnected)
+	        if (!_lavaNode.IsConnected)
             {
 			    await _lavaNode.ConnectAsync();
 		    }
@@ -72,14 +74,22 @@ namespace MasterBot.Services
         
             if (!(arg is SocketUserMessage message)) return;
             if (message.Source != MessageSource.User) return;
-
+            // await Task.Run(async() => await _users.UpdateLastMessageDateAsync(message.Author.Id, (message.Channel as SocketGuildChannel).Guild.Id));
+            await _users.UpdateLastMessageDateAsync(message.Author.Id, (message.Channel as SocketGuildChannel).Guild.Id);
             var argPos = 0;
             var prefix = await _servers.GetGuildPrefix((message.Channel as SocketGuildChannel).Guild.Id) ?? "!"; // fetches the prefix from the database or uses default prefix
             if (!message.HasStringPrefix(prefix, ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
 
+            
             var context = new SocketCommandContext(_client, message);
             await _commands.ExecuteAsync(context, argPos, _provider);
         }
+
+        // private Task MessageReceivedUpdateDb(SocketMessage message)
+        // {
+        //     _ = Task.Run(async() => await  _users.UpdateLastMessageDateAsync(message.Author.Id, (message.Channel as SocketGuildChannel).Guild.Id));
+        //     return Task.CompletedTask;
+        // }
 
 
         private async Task OnCommandExecuted(Optional<CommandInfo> command, ICommandContext context, IResult result)

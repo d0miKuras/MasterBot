@@ -6,6 +6,8 @@ using Infrastructure;
 using Discord.Commands;
 using Discord.WebSocket;
 using System.Collections.Generic;
+using Interactivity;
+using Interactivity.Confirmation;
 
 namespace MasterBot.Modules
 {
@@ -14,6 +16,9 @@ namespace MasterBot.Modules
     {
         private readonly DiscordSocketClient _client;
         private readonly Servers _servers;
+        private readonly Users _users;
+
+        private readonly InteractivityService _interactive;
         public IEnumerable<IDMChannel> DMChannels { get; set; }
         public IEnumerable<IGuildUser> InactiveUsers { get; set; }
         public IEnumerable<IGuildUser> UsersOnGracePeriod { get; set; }   
@@ -24,10 +29,12 @@ namespace MasterBot.Modules
         // public IMessage InactiveListMessage { get; set; }
         
         
-        public ActivityChecks(DiscordSocketClient client, Servers servers)        
+        public ActivityChecks(DiscordSocketClient client, Servers servers, InteractivityService inter, Users users)        
         {
             _client = client;
             _servers = servers;
+            _interactive = inter;
+            _users = users;
         }
         public async Task<ITextChannel> GetLoggingChannelAsITextChannel(ulong id)
         {
@@ -52,14 +59,20 @@ namespace MasterBot.Modules
                     await logchannel.SendMessageAsync($"{Context.User.Mention} has started an activity check.");
                 }
                 var message = await GetInactiveMembersAsync();
+                var timeout = await _servers.GetInactivityPeriod(Context.Guild.Id);
+                // var timeout = 1;
                 foreach(var user in InactiveUsers)
                 {
-                        var directMessage = await user.SendMessageAsync($"Greetings! I have noticed that you have not been very active on the {Context.Guild} server. If you wish to continue being on the server, you might consider being more active. Once you have read this, please react with the ✅ reaction to start your grace period. If you won't send a message within a week, you will be kicked from the server.");
-                        var emoji = new Emoji("✅");
-                        await directMessage.AddReactionAsync(emoji);
+                    var request = new ConfirmationBuilder()
+                        .WithContent(new PageBuilder().WithText($"Greetings! I have noticed that you have not been active on the {Context.Guild} server in the past {timeout} days. If you wish to continue being on the server, you might consider being more active. Once you have read this, please react with the ✅ reaction to start your grace period. If you won't send a message within a week, you will be kicked from the server."))
+                        .Build();
+                    var dm = await user.SendMessageAsync("hi");
+                    var channel = dm.Channel;
+                    await dm.DeleteAsync();
+                    var result = await _interactive.SendConfirmationAsync(request, channel, new TimeSpan(timeout*24, 0, 0));
+                    if(result.Value)
+                        await HandleReactionAddedAsync(channel);
                 }
-                DMChannels = await _client.GetDMChannelsAsync();
-                _client.ReactionAdded += HandleReactionAddedAsync;
 
             }
             catch (Discord.Net.HttpException)
@@ -69,6 +82,39 @@ namespace MasterBot.Modules
             
         }
 
+        private async Task HandleReactionAddedAsync(IMessageChannel channel)
+        {
+            var adminChannel = await Context.Guild.GetTextChannelAsync(await _servers.GetAdminChannel(Context.Guild.Id));
+
+            await channel.SendMessageAsync($"Your grace period has started, try to show more activity before {DateTime.Now + new TimeSpan(7, 0, 0, 0)}");
+
+            var user = await channel.GetUsersAsync().FlattenAsync();
+
+            // InactiveUsers and UsersOnGracePeriod operations ////////////////////////
+            var newList = InactiveUsers.ToList(); // to remove from inactive users
+
+            var guildUser = newList.FirstOrDefault(x => x.Id == user.ElementAt(1).Id);
+            newList.Remove(guildUser);
+            InactiveUsers = newList;
+
+
+            var graceList = UsersOnGracePeriod.ToList(); // to add to UsersOnGracePeriod
+            graceList.Add(guildUser);
+            UsersOnGracePeriod = graceList;
+            ////////////////////////////////////////////////////////////////////////////
+
+            var loggingChannel = await GetLoggingChannelAsITextChannel(Context.Guild.Id);
+            var loggingOn = await _servers.GetLoggingOn(Context.Guild.Id);
+            if(loggingChannel != null && loggingOn)
+            {
+                await loggingChannel.SendMessageAsync($"{guildUser.Mention} has responded to the activity check, grace period started.");
+            }
+
+
+            await UpdateActivityMessage(DateTime.UtcNow + new TimeSpan(7, 0, 0, 0));
+        }
+
+        
         private async Task HandleReactionAddedAsync(Cacheable<IUserMessage, ulong> cachedMessage, ISocketMessageChannel originChannel, SocketReaction reaction)
         {
             var message = await cachedMessage.GetOrDownloadAsync();
@@ -122,29 +168,25 @@ namespace MasterBot.Modules
             var messages = new List<IMessage>();
             var inactivePeriod = await _servers.GetInactivityPeriod(Context.Guild.Id);
             var adminChannel = await Context.Guild.GetTextChannelAsync(await _servers.GetAdminChannel(Context.Guild.Id));
-            // var activityMessageId = _servers.GetActivityMessage(Context.Guild.Id);
             var activityMessageId = await _servers.GetActivityMessage(Context.Guild.Id);
-
-            // var activityMessage = new IMessage();
-
-            
-            foreach(var channel in channels)
-            {
-                // var lastMessage = channel.SendMessageAsync("Activity check has started, this message will be deleted once the messages have been downloaded.");
-                messages.AddRange(await channel.GetMessagesAsync(500).FlattenAsync());
-            }
             
 
 
             var allUsers = await Context.Guild.GetUsersAsync();
-            var currentTime = DateTimeOffset.Now;
+            var currentTime = DateTimeOffset.UtcNow;
+
 
             foreach (var user in allUsers)
             {
-                var messagesByUser = messages.Where(x => x.Author == user); // filters by user
-                // if(messagesByUser.All(x => (x.Timestamp - currentTime).Days > 14))
-                if(!messagesByUser.All(x => (x.Timestamp - currentTime).Days > inactivePeriod) && !user.IsBot)
-                    inactiveUsers.Add(user);
+                if(!user.IsBot)
+                {
+                    var lastMessageDate = await _users.GetLastMessageDate(user.Id, Context.Guild.Id);
+                    if(lastMessageDate == DateTime.MinValue || (currentTime - lastMessageDate).Days > inactivePeriod) // lastMessageDate == DateTime.MinValue means user is not registered, so hasnt sent a message
+                    // and hence is not registered in the database yet
+                        inactiveUsers.Add(user);
+                }
+                
+
             }
             InactiveUsers = inactiveUsers;
             string inactiveUserString = "List of inactive users:\n";
@@ -156,7 +198,6 @@ namespace MasterBot.Modules
             {
                 var activityMessage = await adminChannel.GetMessageAsync(activityMessageId);
                 await activityMessage.DeleteAsync();
-
             }
             var message = await adminChannel.SendMessageAsync(inactiveUserString);
             await message.PinAsync();

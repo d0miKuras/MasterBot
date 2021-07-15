@@ -30,7 +30,7 @@ namespace MasterBot.Modules
                     new EmbedFieldBuilder().WithName("`!adminchannel [#channel || none]`:\t**MANDATORY**").WithValue("Sets the channel as the admin channel. It has to be set up for activity-check features to work. E.g. `!adminchannel` sets the channel this is used in as the admin channel; `!adminchannel channel` sets `channel` as the admin channel."),
                     new EmbedFieldBuilder().WithName("`!logging [true || false]`:\t**MANDATORY**").WithValue("Sets the logging option to the given value. Example: `!logging true` sets logging to true. Now will log all the bot activity to LogChannel."),
                     new EmbedFieldBuilder().WithName("`!logchannel [#logchannel]:`\t**MANDATORY**").WithValue(" Sets the log channel as the logging channel. If command is used while logging is false, sets it to true automatically. Example: `!logchannel #log-channel` will set `#log-channel` as the default channel. If the channel is not given, then sets the channel the command was issued as the logging channel."),
-                    new EmbedFieldBuilder().WithName("`inactivity-period [number of days]`:\t**MANDATORY**").WithValue("Sets the inactivity period in days. It's a must-set command. E.g. '!inactivity-period 10' sets the inactivity period to 10 days, so !activity-check will check on people who have not been active 10 days. Value cannot be less than 1 or greater than 14."),
+                    new EmbedFieldBuilder().WithName("`!inactivity-period [number of days]`:\t**MANDATORY**").WithValue("Sets the inactivity period in days. It's a must-set command. E.g. '!inactivity-period 10' sets the inactivity period to 10 days, so !activity-check will check on people who have not been active 10 days. Value cannot be less than 1 or greater than 14."),
                     new EmbedFieldBuilder().WithName("`!ranks`:").WithValue("Displays all the ranks available on the server."), 
                     new EmbedFieldBuilder().WithName("`!delete-rank [rank]`:").WithValue("Deletes a specified rank from the server and the database. Use: `!delete-rank rank` removes `rank` from the database and deletes `rank` from all the users who previously had it."),
                     new EmbedFieldBuilder().WithName("`!add-rank [rank]`:").WithValue("Adds the specified rank to the server and the database. Use: `!add-rank rank` adds `rank` to the database and allows users to add it to their ranks."),
@@ -77,7 +77,7 @@ namespace MasterBot.Modules
 
             var paginator = new StaticPaginatorBuilder()
                 .WithPages(pages)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithFooter(PaginatorFooter.PageNumber)
                 .WithEmotes(new Dictionary<IEmote, PaginatorAction>()
                 {
                     [new Emoji("◀️")] = PaginatorAction.Backward,
@@ -85,19 +85,8 @@ namespace MasterBot.Modules
                 })
                 .Build();
 
-
-                // var dm = await Context.User.SendMessageAsync("You called for help!");
-                // await _interactivity.SendPaginatorAsync(paginator, dm.Channel, null, dm);
+                await _interactivity.SendPaginatorAsync(paginator, Context.Channel, new TimeSpan(0, 0, 45));
             
-            
-                // await Context.Channel.SendMessageAsync("User DM privacy restrictions prevent the bot from sending them messages.");
-                await _interactivity.SendPaginatorAsync(paginator, Context.Channel);
-            
-            // return Interactivity.SendPaginatorAsync(paginator,
-            //                                         Context.Channel,
-            //                                         TimeSpan.FromMinutes(2));
-            // return ReplyAsync(null, false, paginator);
-            // return _interactivity.SendPaginatorAsync(paginator, Context.Channel);
         }
     }
 }

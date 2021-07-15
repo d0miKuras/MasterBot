@@ -14,6 +14,9 @@ namespace Infrastructure
         public DbSet<Game> Games { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<LFG> LFGs { get; set; }
+        public DbSet<User> Users { get; set; }
+        
+        
         
         protected override void OnConfiguring(DbContextOptionsBuilder options) 
             => options.UseMySql("server=localhost;user=root;database=masterbot;port=3306;Connect Timeout=5;", 
@@ -32,8 +35,17 @@ namespace Infrastructure
         public ulong ActivityMessage { get; set; }
         public bool LoggingOn { get; set; }
         public int InactivityPeriod { get; set; }
+        // public int GracePeriod { get; set; }
     }
 
+
+    public class User
+    {
+        public int Id { get; set; }
+        public ulong UserId { get; set; }
+        public DateTime LastActivity { get; set; }
+        public ulong GuildId { get; set; }
+    }
     public class Rank
     {
         public int Id { get; set; }
@@ -79,8 +91,6 @@ namespace Infrastructure
 
         public Rating LowerRatingBound { get; set; }
         public Rating UpperRatingBound { get; set; }
-        
-        
     }
     public enum Mode
     {
