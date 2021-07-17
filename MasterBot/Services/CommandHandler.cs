@@ -26,7 +26,10 @@ namespace MasterBot.Services
         private readonly Users _users;
         private readonly AutoRolesHelper _autoRolesHelper;
         private readonly LavaNode _lavaNode;
-        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, IServiceProvider provider, Servers servers, Users users, AutoRolesHelper autoRolesHelper, LavaNode lavaNode)
+        private readonly BannedWords _bannedWords;
+        public CommandHandler(DiscordSocketClient discord, CommandService commands, IConfiguration config, 
+                            IServiceProvider provider, Servers servers, Users users, AutoRolesHelper autoRolesHelper, 
+                            LavaNode lavaNode, BannedWords bannedWords)
         {
             _provider = provider;
             _client = discord;
@@ -36,6 +39,7 @@ namespace MasterBot.Services
             _users = users;
             _autoRolesHelper = autoRolesHelper;
             _lavaNode = lavaNode;
+            _bannedWords = bannedWords;
         }
 
         public override async Task InitializeAsync(CancellationToken cancellationToken)
@@ -76,10 +80,21 @@ namespace MasterBot.Services
             if (message.Source != MessageSource.User) return;
             // await Task.Run(async() => await _users.UpdateLastMessageDateAsync(message.Author.Id, (message.Channel as SocketGuildChannel).Guild.Id));
             await _users.UpdateLastMessageDateAsync(message.Author.Id, (message.Channel as SocketGuildChannel).Guild.Id);
+
+
             var argPos = 0;
             var prefix = await _servers.GetGuildPrefix((message.Channel as SocketGuildChannel).Guild.Id) ?? "!"; // fetches the prefix from the database or uses default prefix
+            var bannedWords = await _bannedWords.GetBannedWordsAsync((message.Channel as SocketGuildChannel).Guild.Id);
+            foreach(var word in bannedWords)
+            {
+                if(message.Content.Contains(word) && !message.HasStringPrefix(prefix, ref argPos))
+                {
+                    await message.Channel.SendMessageAsync($"{message.Author.Mention}, The message contains a banned word. Please refrain from using that word.");
+                    await message.DeleteAsync();
+                }
+            }
             if (!message.HasStringPrefix(prefix, ref argPos) && !message.HasMentionPrefix(_client.CurrentUser, ref argPos)) return;
-
+            
             
             var context = new SocketCommandContext(_client, message);
             await _commands.ExecuteAsync(context, argPos, _provider);

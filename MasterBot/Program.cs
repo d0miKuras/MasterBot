@@ -64,6 +64,7 @@ namespace MasterBot
                     })
                     .AddSingleton<InteractivityService>()
                     .AddSingleton<Servers>()
+                    .AddSingleton<BannedWords>()
                     .AddSingleton<Ranks>()
                     .AddSingleton<AutoRoles>()
                     .AddSingleton<LFGs>()

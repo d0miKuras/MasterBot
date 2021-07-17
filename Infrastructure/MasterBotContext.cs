@@ -15,6 +15,7 @@ namespace Infrastructure
         public DbSet<Player> Players { get; set; }
         public DbSet<LFG> LFGs { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<BannedWord> BannedWords { get; set; }
         
         
         
@@ -35,7 +36,17 @@ namespace Infrastructure
         public ulong ActivityMessage { get; set; }
         public bool LoggingOn { get; set; }
         public int InactivityPeriod { get; set; }
-        // public int GracePeriod { get; set; }
+        public List<BannedWord> BannedWords { get; set; }
+        
+        
+    }
+
+    public class BannedWord
+    {
+        public int Id { get; set; }
+        public string Word { get; set; }
+        public ulong ServerId { get; set; }
+        
     }
 
 

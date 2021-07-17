@@ -61,6 +61,16 @@ The items in **bold** are not yet on production server but are finished and are 
 * ### Moderation commands: (Only people who can manage messages can use these):
     * #### purge:
     Deletes a specified number of messages from the channel it was called in. Use: "!purge 50" will remove 50 messages.
+    * #### ban:
+    Bans the mentioned user for a specified reason. E.g. `!ban @User [reason]`. Alias: `!b`.
+    * #### unban:
+    Unbans the user with the specified username. E.g. `!unban username`. Alias: `!ub`. 
+    * #### kick:
+    Kicks the mentioned user for a specified reason. E.g. `!kick @User [reason]`. Alias: `!k`.
+    * #### add-banned-word:
+    Adds the given word to the list of banned words. If a user sends a message containing this word, it will be deleted. E.g. `!add-banned-word [word]`.
+    * #### remove-banned-word:
+    Removes the given word from the list of banned words. E.g. `!remove-banned-word [word]`
 
 * ### Music commands: (Anyone can call these)
     * #### join

@@ -21,13 +21,7 @@ namespace MasterBot.Modules
         private readonly InteractivityService _interactive;
         public IEnumerable<IDMChannel> DMChannels { get; set; }
         public IEnumerable<IGuildUser> InactiveUsers { get; set; }
-        public IEnumerable<IGuildUser> UsersOnGracePeriod { get; set; }   
-
-        // public IGuildChannel LogChannel { get; set; }
-        
-        
-        // public IMessage InactiveListMessage { get; set; }
-        
+        public IEnumerable<IGuildUser> UsersOnGracePeriod { get; set; }           
         
         public ActivityChecks(DiscordSocketClient client, Servers servers, InteractivityService inter, Users users)        
         {
@@ -217,12 +211,8 @@ namespace MasterBot.Modules
             {
                 newMessage += $"{user.Mention} -- Grace period end: {time} UTC\n";
             }
-
             var messageId = await _servers.GetActivityMessage(Context.Guild.Id);
-            // var channel = await Context.Guild.GetChannelAsync(await _servers.GetAdminChannel(Context.Guild.Id));
             await Context.Channel.ModifyMessageAsync(messageId, (x => x.Content = newMessage));
-
-
         }
 
     }

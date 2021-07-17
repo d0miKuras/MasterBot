@@ -49,6 +49,12 @@ namespace MasterBot.Modules
                 new PageBuilder().WithTitle("Moderation").WithFields(new EmbedFieldBuilder[] // MODERATION COMMANDS
                 {
                     new EmbedFieldBuilder().WithName("`!purge [number of messages]`:").WithValue("Deletes a specified number of messages from the channel it was called in. Use: `!purge 50` will remove 50 messages."),
+                    new EmbedFieldBuilder().WithName("`!kick @User [reason]`").WithValue("Kicks the mentioned user for a specified reason. Alias: `!k`."),
+                    new EmbedFieldBuilder().WithName("`!ban @User [reason]`").WithValue("Bans the mentioned user for a specified reason. Alias: `!b`."),
+                    new EmbedFieldBuilder().WithName("`!unban username`").WithValue("Unbans the user with the specified username. Alias: `!ub`."),
+                    new EmbedFieldBuilder().WithName("`!add-banned-word [word]`").WithValue("Adds the given word to the list of banned words. If a user sends a message containing this word, it will be deleted."),
+                    new EmbedFieldBuilder().WithName("`!remove-banned-word [word]`").WithValue("Removes the given word from the list of banned words.")
+
                 }),
 
                 new PageBuilder().WithTitle("LFG").WithFields(new EmbedFieldBuilder[] // LFG COMMANDS
@@ -58,7 +64,10 @@ namespace MasterBot.Modules
                     new EmbedFieldBuilder().WithName("`!lfg [Game][Mode] remove`:").WithValue("Removes the user from the lfg database for that mode.")
                 }).WithText("Game Modes:\n `Casual`, `Ranked`, `Customs`, `Zombies`\n\nRegions:\n`EU`,`NA`, `Africa`, `SEA`, `Asia`, `ME`, `LA`, `RU`\n\nGames:\nUse full game names with no spaces or abbreviations."),
                 
-                new PageBuilder().WithTitle("Activity Check"), // ACTIVITY CHECK COMMANDS
+                new PageBuilder().WithTitle("Activity Check").WithFields(new EmbedFieldBuilder[] // ACTIVITY CHECK COMMANDS
+                {
+                    new EmbedFieldBuilder().WithName("`!activity-check`:").WithValue("Posts the message with users who have not messaged in `activity period`. Sends them a message upon reacting to which the message that has been posted is updated. The users who reacted to the DM are given a `grace period`, the end of which is noted in the modified message. As of now there are no auto-kick features.")
+                }), 
                 new PageBuilder().WithTitle("Fun").WithFields(new EmbedFieldBuilder[]
                 {
                     new EmbedFieldBuilder().WithName("`!meme [subreddit=optional]`:\tALIAS `reddit`").WithValue("Sends a random post from the specified subreddit. If the subreddit is not specified, sends a random meme from /r/dankmemes. Use: `!reddit memes`, `!meme`, `!meme allthingsprotoss`, `!reddit`"),
